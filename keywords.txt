@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map For Time
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+SimpleTask      KEYWORD1
+task_t          KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+runTasks        KEYWORD2
+createTask      KEYWORK2
+#######################################
+# Instances (KEYWORD2)
+#######################################
+task_t          KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+loopInterval    LITERAL1
+timestamp       LITERAL1
+timeoffset      LITERAL1

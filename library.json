@@ -1,0 +1,18 @@
+{
+    "name": "SimpleTask",
+    "version": "1.0",
+    "frameworks": "Arduino",
+    "description": "Simple sequential task using millis()",
+    "keywords": "",
+    "authors": [
+        {
+            "name": "Kamon Singtong",
+            "email": "kamon.dev@hotmail.com",
+            "url": "http://makearduino.com",
+            "maintainer": true
+        }
+    ],
+    "examples": [
+        "examples/*/*.ino"
+    ]
+}
