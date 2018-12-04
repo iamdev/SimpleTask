@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //***********************************************************************************
-// Version : 0.1 beta
+// Version : 0.2 beta
 // Owner : Kamon Singtong (MakeArduino.com)
 // facebook : makearduino 
 //***********************************************************************************
@@ -41,6 +41,7 @@
 
 typedef struct task_t{
     void (*callback)(task_t&);
+    void (*callback2)(void);    
     unsigned long interval;
     unsigned long timestamp;
     unsigned long timeoffset;
@@ -52,6 +53,7 @@ class SimpleTask{
 public : 
     SimpleTask();
     task_t* create(void (*callback)(task_t&),int interval);
+    task_t* create(void (*callback)(void),int interval);
     void loop(unsigned long t=0);
 protected:
     struct task_t tasks[MAX_TASK];

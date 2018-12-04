@@ -1,6 +1,6 @@
 //*************************************************************************
 // SimpleTask Library - Simple sequential task manager for Arduino
-// V 0.1
+// V 0.2beta
 // Lebrary Owner : Kamon Singtong (www.makearduino.com)
 // fb : makearduino
 //*************************************************************************
@@ -22,11 +22,22 @@ void printSecond(task_t &tk);
 void setup(){
     Serial.begin(115200);
     pinMode(LED_BUILTIN,OUTPUT);
-    while(!Serial)delay(0);
+#if defined(__STM32F1__)
+    while(!Serial)delay(0);//Waiting for serial monitoring connected
     delay(100);
+#else    
+    delay(1000); 
+#endif    
     /* LED Blink ON 0.5s/ OFF 0.5s */
-    //กำหนด handler โดย Lambda expression
-    Task.create([](task_t &tk){ digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN));},500);
+    //กำหนด handler โดย Lambda expression    
+    Task.create([](task_t &tk){
+       if((tk.timeoffset%1000)>=50 && !digitalRead(LED_BUILTIN))
+          digitalWrite(LED_BUILTIN,HIGH);
+       else if((tk.timeoffset%1000)<50 && digitalRead(LED_BUILTIN))
+          digitalWrite(LED_BUILTIN,LOW);
+    },50);//สามารถใข้ Lambda แบบไม่มี parameter ได้
+    //Task.create([](){});//Lambda แบบไม่มี parameter
+    
     /* Serial print millis() every 1000ms*/
     Task.create(serialPrintTask,1000);
 }

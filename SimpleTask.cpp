@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //***********************************************************************************
-// Version : 0.1 beta
+// Version : 0.2 beta
 // Owner : Kamon Singtong (MakeArduino.com)
 // facebook : makearduino 
 //***********************************************************************************
@@ -34,11 +34,20 @@ SimpleTask::SimpleTask(){}
 task_t* SimpleTask::create(void (*callback)(task_t &),int interval)
 {
     if(taskCount<MAX_TASK){
-        struct task_t tk = {callback,interval,0,0,0,true}; 
+        struct task_t tk = {callback,NULL,interval,0,0,0,true}; 
         tasks[taskCount++] = tk;
         return &tk;
     }
 } 
+
+task_t* SimpleTask::create(void (*callback)(void),int interval)
+{
+    if(taskCount<MAX_TASK){
+        struct task_t tk = {NULL,callback,interval,0,0,0,true}; 
+        tasks[taskCount++] = tk;
+        return &tk;
+    }
+}
 
 void SimpleTask::loop(unsigned long t){    
     if(t==0) t = millis()&overflow_bitmask;        
@@ -49,8 +58,11 @@ void SimpleTask::loop(unsigned long t){
             tasks[i].timestamp = t;            
             if(tasks[i].offset==0)tasks[i].offset = t-tasks[i].interval;
             tasks[i].timeoffset = t-tasks[i].offset;
-            tasks[i].callback(tasks[i]);
-        }
+            if(tasks[i].callback!=NULL)
+                tasks[i].callback(tasks[i]);
+            else 
+                tasks[i].callback2();
+        } 
     }   
 }
 
