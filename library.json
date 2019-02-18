@@ -1,6 +1,6 @@
 {
     "name": "SimpleTask",
-    "version": "0.02beta",
+    "version": "1.0",
     "frameworks": "Arduino",
     "description": "Simple sequential task using millis()",
     "keywords": "",

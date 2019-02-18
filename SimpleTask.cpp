@@ -21,7 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //***********************************************************************************
-// Version : 0.2 beta
+// Library Name : SimpleTask for Arduino
+// Architecture : Support All (AVR/ESP8266/STM32)
+// Version : 1.0
 // Owner : Kamon Singtong (MakeArduino.com)
 // facebook : makearduino 
 //***********************************************************************************
@@ -50,11 +52,11 @@ task_t* SimpleTask::create(void (*callback)(void),int interval)
 }
 
 void SimpleTask::loop(unsigned long t){    
-    if(t==0) t = millis()&overflow_bitmask;        
+    if(t==0) t = millis();        
     for(int i=0;i<taskCount;i++){
         if(!tasks[i].enabled)continue;
         unsigned long next = (tasks[i].timestamp + tasks[i].interval)&overflow_bitmask;        
-        if(t>=next){
+        if(tasks[i].interval==0 || (t&overflow_bitmask)>=next){
             tasks[i].timestamp = t;            
             if(tasks[i].offset==0)tasks[i].offset = t-tasks[i].interval;
             tasks[i].timeoffset = t-tasks[i].offset;

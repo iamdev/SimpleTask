@@ -21,7 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //***********************************************************************************
-// Version : 0.2 beta
+// Library Name : SimpleTask for Arduino
+// Architecture : Support All (AVR/ESP8266/STM32)
+// Version : 1.0
 // Owner : Kamon Singtong (MakeArduino.com)
 // facebook : makearduino 
 //***********************************************************************************
