@@ -36,7 +36,7 @@
 #endif
 
 #ifndef TASK_OVERFLOW_BIT
-#define TASK_OVERFLOW_BIT      31
+#define TASK_OVERFLOW_BIT      24
 #endif
 
 #define TASK_OVERFLOW_BITMASK    ((1<<(TASK_OVERFLOW_BIT))-1)
@@ -45,10 +45,12 @@ typedef struct task_t{
     void (*callback)(task_t&);
     void (*callback2)(void);    
     unsigned long interval;
+    bool enabled;
     unsigned long timestamp;
+    unsigned long next;
+    unsigned long prev;
     unsigned long timeoffset;
     unsigned long offset;
-    bool enabled;
 };
 
 class SimpleTask{
@@ -56,11 +58,12 @@ public :
     SimpleTask();
     task_t* create(void (*callback)(task_t&),int interval);
     task_t* create(void (*callback)(void),int interval);
-    void loop(unsigned long t=0);
+    void loop(unsigned long t);
+    void loop();
 protected:
     struct task_t tasks[MAX_TASK];
     int taskCount = 0;
-    const unsigned long overflow_bitmask = TASK_OVERFLOW_BITMASK;
+    const unsigned long overflow_bitmask = TASK_OVERFLOW_BITMASK;    
 };
 
 extern SimpleTask Task;
