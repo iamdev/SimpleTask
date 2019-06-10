@@ -56,7 +56,7 @@ void SimpleTask::loop(){
     loop(millis());
 }
 
-void SimpleTask::loop(unsigned long t){    
+void SimpleTask::loop(unsigned long t){ 
     static bool first = true;
     for(int i=0;i<taskCount;i++){
         if(!tasks[i].enabled) continue;
@@ -67,13 +67,7 @@ void SimpleTask::loop(unsigned long t){
         t &= overflow_bitmask;
         if(t<=tasks[i].interval && tasks[i].next>overflow_bitmask){
             tasks[i].next &= overflow_bitmask;
-        }
-        #ifdef SIMPLETASK_DEBUG
-        Serial.print("t="); 
-        Serial.print(t);
-        Serial.print("\tnext=");        
-        Serial.println(tasks[i].next);
-        #endif
+        }        
         if(first || tasks[i].interval==0 || t>=tasks[i].next){
             unsigned long d = t - tasks[i].prev;            
             if(t<tasks[i].timestamp){
@@ -95,11 +89,6 @@ void SimpleTask::loop(unsigned long t){
                 tasks[i].callback2();
             else
                 tasks[i].callback(tasks[i]); 
-                
-            #ifdef SIMPLETASK_DEBUG
-            Serial.print("Event!! t=");
-            Serial.println(tasks[i].timeoffset);
-            #endif
         } 
     }   
     first = false;
