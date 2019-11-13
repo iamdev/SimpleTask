@@ -36,7 +36,7 @@
 #endif
 
 #ifndef TASK_OVERFLOW_BIT
-#define TASK_OVERFLOW_BIT      24
+#define TASK_OVERFLOW_BIT      30
 #endif
 
 #define TASK_OVERFLOW_BITMASK    ((1<<(TASK_OVERFLOW_BIT))-1)
@@ -46,11 +46,12 @@ typedef struct task_t{
     void (*callback2)(void);    
     unsigned long interval;
     bool enabled;
-    unsigned long timestamp;
-    unsigned long next;
-    unsigned long prev;
-    unsigned long timeoffset;
-    unsigned long offset;
+    uint32_t t_last;
+    uint32_t timestamp;
+    uint32_t next;
+    uint32_t prev;
+    uint64_t timeoffset;
+    uint32_t offset;
 };
 
 class SimpleTask{

@@ -56,18 +56,25 @@ void SimpleTask::loop(){
     loop(millis());
 }
 
-void SimpleTask::loop(unsigned long t){ 
+void SimpleTask::loop(unsigned long tt){    
     static bool first = true;
     for(int i=0;i<taskCount;i++){
         if(!tasks[i].enabled) continue;
         if(first){
-            tasks[i].offset = t;
-            tasks[i].next = t;
+            tasks[i].t_last = 0;
+            tasks[i].prev = 0;
+            tasks[i].offset = tt;
+            tasks[i].next = tt;
         }        
-        t &= overflow_bitmask;
-        if(t<=tasks[i].interval && tasks[i].next>overflow_bitmask){
-            tasks[i].next &= overflow_bitmask;
-        }        
+        unsigned long t = tt & overflow_bitmask;
+                
+        if(t < tasks[i].t_last){            
+            if(tasks[i].next > overflow_bitmask){
+                tasks[i].next &=overflow_bitmask;
+            }else
+                t += overflow_bitmask;            
+        }
+        tasks[i].t_last = t;       
         if(first || tasks[i].interval==0 || t>=tasks[i].next){
             unsigned long d = t - tasks[i].prev;            
             if(t<tasks[i].timestamp){
