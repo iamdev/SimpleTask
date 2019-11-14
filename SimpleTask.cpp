@@ -65,6 +65,7 @@ void SimpleTask::loop(unsigned long tt){
             tasks[i].prev = 0;
             tasks[i].offset = tt;
             tasks[i].next = tt;
+            tasks[i].timeoffset = 0;
         }        
         unsigned long t = tt & overflow_bitmask;
                 
@@ -72,21 +73,17 @@ void SimpleTask::loop(unsigned long tt){
             if(tasks[i].next > overflow_bitmask){
                 tasks[i].next &=overflow_bitmask;
             }else
-                t += overflow_bitmask;            
+                t += overflow_bitmask+1;            
         }
         tasks[i].t_last = t;       
         if(first || tasks[i].interval==0 || t>=tasks[i].next){
-            unsigned long d = t - tasks[i].prev;            
-            if(t<tasks[i].timestamp){
-                d += overflow_bitmask+1; 
-            }
+            unsigned long d = (t > tasks[i].prev)?(t - tasks[i].prev):(t+overflow_bitmask+1- tasks[i].prev);
             tasks[i].timestamp = t;                        
             if(tasks[i].offset==0)tasks[i].offset = t-tasks[i].interval;
                         
             tasks[i].timeoffset += d;
             if(first){
-                tasks[i].offset = t;
-                tasks[i].timeoffset -= tasks[i].offset; 
+                tasks[i].timeoffset =0;
             }
             tasks[i].prev = t;
             tasks[i].next += tasks[i].interval;
