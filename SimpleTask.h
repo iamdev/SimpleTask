@@ -32,7 +32,7 @@
 #define _SIMPLE_TASK_H
 
 #ifndef MAX_TASK
-#define MAX_TASK 16
+#define MAX_TASK 32
 #endif
 
 #ifndef TASK_OVERFLOW_BIT
@@ -42,6 +42,7 @@
 #define TASK_OVERFLOW_BITMASK    ((1<<(TASK_OVERFLOW_BIT))-1)
 
 typedef struct task_t{
+    int id;
     void (*callback)(task_t&);
     void (*callback2)(void);    
     unsigned long interval;

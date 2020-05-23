@@ -38,7 +38,7 @@ SimpleTask::SimpleTask(){}
 task_t* SimpleTask::create(void (*callback)(task_t &),int interval)
 {
     if(taskCount<MAX_TASK){
-        struct task_t tk = {callback,NULL,interval,true}; 
+        struct task_t tk = {taskCount,callback,NULL,interval,true}; 
         tasks[taskCount++] = tk;
         return &tk;
     }
@@ -47,7 +47,7 @@ task_t* SimpleTask::create(void (*callback)(task_t &),int interval)
 task_t* SimpleTask::create(void (*callback)(void),int interval)
 {
     if(taskCount<MAX_TASK){
-        struct task_t tk = {NULL,callback,interval,true}; 
+        struct task_t tk = {taskCount,NULL,callback,interval,true}; 
         tasks[taskCount++] = tk;
         return &tk;
     }
